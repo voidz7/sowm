@@ -2,9 +2,11 @@
 #define CONFIG_H
 
 #define MOD Mod4Mask
+
 #define BORDER_SELECT   "#bd93f9"
 #define BORDER_NORMAL   "#44475a"
-#define BORDER_WIDTH    6
+#define BORDER_NONE     "#000000"
+#define BORDER_WIDTH    2
 
 const char* menu[]    = {"dmenu_run",      0};
 const char* term[]    = {"st",             0};
@@ -27,6 +29,11 @@ static struct key keys[] = {
     {MOD, XK_p,      run, {.com = scrot}},
     {MOD, XK_Return, run, {.com = term}},
 
+    {0,   XF86XK_AudioLowerVolume,  run, {.com = voldown}},
+    {0,   XF86XK_AudioRaiseVolume,  run, {.com = volup}},
+    {0,   XF86XK_AudioMute,         run, {.com = volmute}},
+    {0,   XF86XK_MonBrightnessUp,   run, {.com = briup}},
+    {0,   XF86XK_MonBrightnessDown, run, {.com = bridown}},
 
     {MOD,           XK_k,  win_move,  {.com = (const char*[]){"move",   "n"}, .i = 10}},
     {MOD,           XK_j,  win_move,  {.com = (const char*[]){"move",   "s"}, .i = 10}},
@@ -37,13 +44,6 @@ static struct key keys[] = {
     {MOD|ShiftMask, XK_j,  win_move,  {.com = (const char*[]){"resize", "s"}, .i = 10}},
     {MOD|ShiftMask, XK_l,  win_move,  {.com = (const char*[]){"resize", "e"}, .i = 10}},
     {MOD|ShiftMask, XK_h,  win_move,  {.com = (const char*[]){"resize", "w"}, .i = 10}},
-
-
-    {0,   XF86XK_AudioLowerVolume,  run, {.com = voldown}},
-    {0,   XF86XK_AudioRaiseVolume,  run, {.com = volup}},
-    {0,   XF86XK_AudioMute,         run, {.com = volmute}},
-    {0,   XF86XK_MonBrightnessUp,   run, {.com = briup}},
-    {0,   XF86XK_MonBrightnessDown, run, {.com = bridown}},
 
     {MOD,           XK_1, ws_go,     {.i = 1}},
     {MOD|ShiftMask, XK_1, win_to_ws, {.i = 1}},
