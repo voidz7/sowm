@@ -30,10 +30,9 @@ typedef struct client {
     struct client *next, *prev;
     int f, wx, wy;
     unsigned int ww, wh;
-    Window w;
     unsigned char fs;
+    Window w;
 } client;
-
 
 unsigned long getcolor(const char *col);
 void button_press(XEvent *e);
@@ -47,16 +46,14 @@ void notify_destroy(XEvent *e);
 void notify_enter(XEvent *e);
 void notify_motion(XEvent *e);
 void run(const Arg arg);
-void runAutoStart(void);
 void win_add(Window w);
 void win_center(const Arg arg);
 void win_del(Window w);
 void win_fs(const Arg arg);
-void win_focus(client *c); void win_kill(const Arg arg);
+void win_focus(client *c);
+void win_kill(const Arg arg);
 void win_prev(const Arg arg);
 void win_next(const Arg arg);
-void win_half(const Arg arg);
-void win_move(const Arg arg);
 void win_to_ws(const Arg arg);
 void ws_go(const Arg arg);
 

@@ -22,4 +22,3 @@ clean:
 	rm -f sowm *.o
 
 .PHONY: all install uninstall clean
-

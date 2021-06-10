@@ -14,11 +14,7 @@ static client       *list = {0}, *ws_list[10] = {0}, *cur;
 static int          ws = 1, sw, sh, wx, wy, numlock = 0;
 static unsigned int ww, wh;
 
-
-
-
 static int          s;
-
 static Display      *d;
 static XButtonEvent mouse;
 static Window       root;
@@ -37,42 +33,16 @@ static void (*events[LASTEvent])(XEvent *e) = {
 
 #include "config.h"
 
-
-
 unsigned long getcolor(const char *col) {
     Colormap m = DefaultColormap(d, s);
     XColor c;
     return (!XAllocNamedColor(d, m, col, &c, &c))?0:c.pixel;
 }
 
-void win_half(const Arg arg) {
-     char m = arg.com[0][0];
-
-     win_size(cur->w, &wx, &wy, &ww, &wh);
-
-     XMoveResizeWindow(d, cur->w, \
-        (m == 'w' ? wx : m == 'e' ? (wx + ww / 2) : wx),
-        (m == 'n' ? wy : m == 's' ? (wy + wh / 2) : wy),
-        (m == 'w' ? (ww / 2) : m == 'e' ? (ww / 2) : ww),
-        (m == 'n' ? (wh / 2) : m == 's' ? (wh / 2) : wh));
-}
-
-void win_move(const Arg arg) {
-    int  r = arg.com[0][0] == 'r';
-    char m = arg.com[1][0];
-
-    win_size(cur->w, &wx, &wy, &ww, &wh);
-
-    XMoveResizeWindow(d, cur->w, \
-        wx + (r ? 0 : m == 'e' ?  arg.i : m == 'w' ? -arg.i : 0),
-        wy + (r ? 0 : m == 'n' ? -arg.i : m == 's' ?  arg.i : 0),
-        MAX(10, ww + (r ? m == 'e' ?  arg.i : m == 'w' ? -arg.i : 0 : 0)),
-        MAX(10, wh + (r ? m == 'n' ? -arg.i : m == 's' ?  arg.i : 0 : 0)));
-}
-
 void win_focus(client *c) {
     if (cur) XSetWindowBorder(d, cur->w, getcolor(BORDER_NORMAL));
     cur = c;
+
     XSetWindowBorder(d, cur->w, getcolor(BORDER_SELECT));
 
     if (cur->fs) {
@@ -82,20 +52,17 @@ void win_focus(client *c) {
     }
     
     XSetInputFocus(d, cur->w, RevertToParent, CurrentTime);
-
 }
 
 void notify_destroy(XEvent *e) {
     win_del(e->xdestroywindow.window);
 
     if (list) win_focus(list->prev);
-
 }
 
 void notify_enter(XEvent *e) {
     while(XCheckTypedEvent(d, EnterNotify, e));
     while(XCheckTypedWindowEvent(d, mouse.subwindow, MotionNotify, e));
-
 
     for win if (c->w == e->xcrossing.window) win_focus(c);
 }
@@ -191,13 +158,8 @@ void win_fs(const Arg arg) {
     if ((cur->f = cur->f ? 0 : 1)) {
         win_size(cur->w, &cur->wx, &cur->wy, &cur->ww, &cur->wh);
         XMoveResizeWindow(d, cur->w, 0, 0, sw, sh);
-
-
         cur->fs = 1;
         win_focus(cur);
-        cur->fs = 0;
-        win_focus(cur);
-
     } else {
         XMoveResizeWindow(d, cur->w, cur->wx, cur->wy, cur->ww, cur->wh);
         cur->fs = 0;
@@ -266,6 +228,7 @@ void configure_request(XEvent *e) {
         .sibling    = ev->above,
         .stack_mode = ev->detail
     });
+
 }
 
 void map_request(XEvent *e) {
@@ -276,7 +239,6 @@ void map_request(XEvent *e) {
     win_add(w);
     cur = list->prev;
 
-    
     if (wx + wy == 0) win_center((Arg){0});
 
     XMapWindow(d, w);
@@ -298,11 +260,6 @@ void run(const Arg arg) {
 
     setsid();
     execvp((char*)arg.com[0], (char**)arg.com);
-}
-
-void runAutoStart(void) {
-    system("cd ~/.sowm; ./autostart_blocking.sh");
-    system("cd ~/.sowm; ./autostart.sh &");
 }
 
 void input_grab(Window root) {
@@ -341,17 +298,14 @@ int main(void) {
     signal(SIGCHLD, SIG_IGN);
     XSetErrorHandler(xerror);
 
-    int s = DefaultScreen(d);   
+    int s = DefaultScreen(d);
     root  = RootWindow(d, s);
-
     sw    = XDisplayWidth(d, s); //- (2*BORDER_WIDTH);
     sh    = XDisplayHeight(d, s); //- (2*BORDER_WIDTH);
-//    sw    = XDisplayWidth(d, s);
-//    sh    = XDisplayHeight(d, s);
+
     XSelectInput(d,  root, SubstructureRedirectMask);
     XDefineCursor(d, root, XCreateFontCursor(d, 68));
     input_grab(root);
-    runAutoStart();
 
     while (1 && !XNextEvent(d, &ev)) // 1 && will forever be here.
         if (events[ev.type]) events[ev.type](&ev);
