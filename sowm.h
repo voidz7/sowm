@@ -34,6 +34,7 @@ typedef struct client {
     Window w;
 } client;
 
+void runAutoStart(void);
 unsigned long getcolor(const char *col);
 void button_press(XEvent *e);
 void button_release(XEvent *e);
@@ -54,6 +55,7 @@ void win_focus(client *c);
 void win_kill(const Arg arg);
 void win_prev(const Arg arg);
 void win_next(const Arg arg);
+void win_move(const Arg arg);
 void win_to_ws(const Arg arg);
 void ws_go(const Arg arg);
 
