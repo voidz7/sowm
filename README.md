@@ -43,7 +43,6 @@ Official repo : [sowm](https://github.com/dylanaraps/sowm/)
 | `MOD4` + `Return`        | terminal         | `st`           |
 | `MOD4` + `d`             | dmenu            | `dmenu_run`    |
 | `MOD4` + `p`             | Screenshot       | `scr`          |
-| `MOD4` + `w`             | wallpaper cycler | `bud`          |
 | `XF86_AudioLowerVolume`  | volume down      | `amixer`       |
 | `XF86_AudioRaiseVolume`  | volume up        | `amixer`       |
 | `XF86_AudioMute`         | volume toggle    | `amixer`       |
