@@ -8,6 +8,8 @@
 #define BORDER_NONE     "#000000"
 #define BORDER_WIDTH    2
 
+const int WIN_DIST = 20;
+
 const char* menu[]    = {"dmenu_run",      0};
 const char* term[]    = {"st",             0};
 const char* scrot[]   = {"scr",            0};
@@ -35,15 +37,15 @@ static struct key keys[] = {
     {0,   XF86XK_MonBrightnessUp,   run, {.com = briup}},
     {0,   XF86XK_MonBrightnessDown, run, {.com = bridown}},
 
-    {MOD,           XK_k,  win_move,  {.com = (const char*[]){"move",   "n"}, .i = 10}},
-    {MOD,           XK_j,  win_move,  {.com = (const char*[]){"move",   "s"}, .i = 10}},
-    {MOD,           XK_l,  win_move,  {.com = (const char*[]){"move",   "e"}, .i = 10}},
-    {MOD,           XK_h,  win_move,  {.com = (const char*[]){"move",   "w"}, .i = 10}},
+    {MOD,           XK_k,  win_move,  {.com = (const char*[]){"move",   "n"}, .i = WIN_DIST}},
+    {MOD,           XK_j,  win_move,  {.com = (const char*[]){"move",   "s"}, .i = WIN_DIST}},
+    {MOD,           XK_l,  win_move,  {.com = (const char*[]){"move",   "e"}, .i = WIN_DIST}},
+    {MOD,           XK_h,  win_move,  {.com = (const char*[]){"move",   "w"}, .i = WIN_DIST}},
 
-    {MOD|ShiftMask, XK_k,  win_move,  {.com = (const char*[]){"resize", "n"}, .i = 10}},
-    {MOD|ShiftMask, XK_j,  win_move,  {.com = (const char*[]){"resize", "s"}, .i = 10}},
-    {MOD|ShiftMask, XK_l,  win_move,  {.com = (const char*[]){"resize", "e"}, .i = 10}},
-    {MOD|ShiftMask, XK_h,  win_move,  {.com = (const char*[]){"resize", "w"}, .i = 10}},
+    {MOD|ShiftMask, XK_k,  win_move,  {.com = (const char*[]){"resize", "n"}, .i = WIN_DIST}},
+    {MOD|ShiftMask, XK_j,  win_move,  {.com = (const char*[]){"resize", "s"}, .i = WIN_DIST}},
+    {MOD|ShiftMask, XK_l,  win_move,  {.com = (const char*[]){"resize", "e"}, .i = WIN_DIST}},
+    {MOD|ShiftMask, XK_h,  win_move,  {.com = (const char*[]){"resize", "w"}, .i = WIN_DIST}},
 
     {MOD,           XK_1, ws_go,     {.i = 1}},
     {MOD|ShiftMask, XK_1, win_to_ws, {.i = 1}},
