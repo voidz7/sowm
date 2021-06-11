@@ -34,13 +34,14 @@ Official repo : [sowm](https://github.com/dylanaraps/sowm/)
 | `MOD1` + `TAB` (*alt-tab*) | focus cycle            |
 | `MOD4` + `hjkl`            | Move window            |
 | `MOD4` + `Shift` + `hjkl`  | resize window          |
+
 **Programs**
 
 | combo                    | action           | program        |
 | ------------------------ | ---------------- | -------------- |
 | `MOD4` + `Return`        | terminal         | `st`           |
 | `MOD4` + `d`             | dmenu            | `dmenu_run`    |
-| `MOD4` + `p`             | scrot            | `scr`          |
+| `MOD4` + `p`             | Screenshot       | `scr`          |
 | `MOD4` + `w`             | wallpaper cycler | `bud`          |
 | `XF86_AudioLowerVolume`  | volume down      | `amixer`       |
 | `XF86_AudioRaiseVolume`  | volume up        | `amixer`       |
