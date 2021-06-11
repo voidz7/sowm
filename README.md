@@ -8,12 +8,12 @@ Official repo : [sowm](https://github.com/dylanaraps/sowm/)
 
 <a href="https://raw.githubusercontent.com/voidz7/sowm/main/screenshots/rice.png"><img src="https://raw.githubusercontent.com/voidz7/sowm/main/screenshots/rice.png" width="43%" align="right"></a>
 
-* VIM keybinds to move resize windows
-* Window borders for active and inactive windows 
-* autostart script 
-* bar support (todo)
-* out of the box rice (dracula theme)
-* simple code base so easily hackable/customizable
+* VIM keybinds to move resize windows.
+* Window borders for active and inactive windows. 
+* autostart script .
+* bar support (todo).
+* out of the box rice (dracula theme).
+* simple code base so easily hackable/customizable.
 
 
 #### refer [screenshots](https://github.com/voidz7/sowm/tree/main/screenshots) for more  
