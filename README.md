@@ -53,3 +53,18 @@ Official repo : [sowm](https://github.com/dylanaraps/sowm/)
 ## Dependencies
 
 - `xlib` (*usually `libX11`*).
+
+## Installation
+
+1) Copy `config.def.h` to `config.h` and modify it to suit your needs.
+2) Run `make` to build `sowm`.
+3) Copy it to your path or run `make install`.
+    - `DESTDIR` and `PREFIX` are supported. 
+4) if you want to run it along side a window manager use this .desktop file and place it in `/usr/share/xsessions`.
+```
+[Desktop Entry]
+Name=sowm
+Comment=This session runs sowm as desktop manager
+Exec=sowm
+Type=Application
+```
