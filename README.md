@@ -35,6 +35,7 @@ Official repo : [sowm](https://github.com/dylanaraps/sowm/)
 | `MOD4` + `hjkl`            | Move window            |
 | `MOD4` + `Shift` + `hjkl`  | resize window          |
 
+
 **Programs**
 
 | combo                    | action           | program        |

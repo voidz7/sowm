@@ -12,14 +12,16 @@ const int WIN_DIST = 20;
 
 const char* menu[]    = {"dmenu_run",      0};
 const char* term[]    = {"st",             0};
-const char* scrot[]   = {"scr",            0};
+const char* scrot[]   = {"scrot",          0};
 const char* briup[]   = {"bri", "10", "+", 0};
 const char* bridown[] = {"bri", "10", "-", 0};
 const char* voldown[] = {"amixer", "sset", "Master", "5%-",         0};
 const char* volup[]   = {"amixer", "sset", "Master", "5%+",         0};
 const char* volmute[] = {"amixer", "sset", "Master", "toggle",      0};
+const char *tabtermcmd[]  = { "tabbed", "-r", "2", "st", "-w", "''", NULL };
 
-static struct key keys[] = {
+
+    static struct key keys[] = {
     {MOD,      XK_q,   win_kill,   {0}},
     {MOD,      XK_c,   win_center, {0}},
     {MOD,      XK_f,   win_fs,     {0}},
@@ -30,7 +32,7 @@ static struct key keys[] = {
     {MOD, XK_d,      run, {.com = menu}},
     {MOD, XK_p,      run, {.com = scrot}},
     {MOD, XK_Return, run, {.com = term}},
-
+    {Mod1Mask,           XK_Return, run, {.com = tabtermcmd}},
     {0,   XF86XK_AudioLowerVolume,  run, {.com = voldown}},
     {0,   XF86XK_AudioRaiseVolume,  run, {.com = volup}},
     {0,   XF86XK_AudioMute,         run, {.com = volmute}},
