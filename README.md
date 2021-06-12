@@ -54,3 +54,24 @@ Official repo : [sowm](https://github.com/dylanaraps/sowm/)
 ## Dependencies
 
 - `xlib` (*usually `libX11`*).
+
+
+## Installation
+
+1) Copy `config.def.h` to `config.h` and modify it to suit your needs.
+2) Run `make` to build `sowm`.
+3) Copy it to your path or run `make install`.
+    - `DESTDIR` and `PREFIX` are supported.
+4) (Optional) Apply patch with `git apply patches/patch-name`
+    - In case of applying multiple patches, it has to be done **manually**.
+
+If you are using GDM, save the following to `/usr/share/xsessions/sowm.desktop`. It is still recommended to start `sowm` from `.xinitrc` or through
+[your own xinit implementation](https://github.com/dylanaraps/bin/blob/dfd9a9ff4555efb1cc966f8473339f37d13698ba/x).
+
+```
+[Desktop Entry]
+Name=sowm
+Comment=This session runs sowm as desktop manager
+Exec=sowm
+Type=Application
+```
