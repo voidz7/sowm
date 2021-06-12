@@ -6,7 +6,7 @@ Official repo : [sowm](https://github.com/dylanaraps/sowm/)
 
 ### This fork of SOWM aka sowm-voidz contains the following features
 
-<a href="https://raw.githubusercontent.com/voidz7/sowm/main/screenshots/rice.png"><img src="https://raw.githubusercontent.com/voidz7/sowm/main/screenshots/rice.png" width="43%" align="right"></a>
+<a href="https://raw.githubusercontent.com/voidz7/sowm/main/screenshots/todolist.png"><img src="https://raw.githubusercontent.com/voidz7/sowm/main/screenshots/todolist.png" width="43%" align="right"></a>
 
 * VIM keybinds to move resize windows
 * Window borders for active and inactive windows 
@@ -16,7 +16,7 @@ Official repo : [sowm](https://github.com/dylanaraps/sowm/)
 * simple code base so easily hackable/customizable
 
 
-#### refer [screenshots](https://github.com/voidz7/sowm/screenshots/) for more pictures 
+#### refer [screenshots](https://github.com/voidz7/sowm/tree/main/screenshots) for more pictures 
 ## Default Keybindings
 
 **Window Management**
