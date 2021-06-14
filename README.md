@@ -16,7 +16,7 @@ Official repo : [sowm](https://github.com/dylanaraps/sowm/)
 * simple code base so easily hackable/customizable
 
 
-#### refer [screenshots](https://github.com/voidz7/sowm/tree/main/screenshots) for more pictures 
+#### refer [scrots](https://github.com/voidz7/sowm/blob/main/screenshots/README.md) for more scrots 
 ## Default Keybindings
 
 **Window Management**
