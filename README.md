@@ -1,22 +1,31 @@
-# SOWM
+# sowm (*~~Simple~~ Shitty Opinionated Window Manager*)
 
-Sowm is an itsy bitsy floating window manager .
+<a href="https://user-images.githubusercontent.com/6799467/66687576-9747c200-ec72-11e9-947d-5b96753eab03.jpg"><img src="https://user-images.githubusercontent.com/6799467/66687576-9747c200-ec72-11e9-947d-5b96753eab03.jpg" width="43%" align="right"></a>
 
-Official repo : [sowm](https://github.com/dylanaraps/sowm/)
+An itsy bitsy floating window manager (*220~ sloc!*).
 
-### This fork of SOWM aka sowm-voidz contains the following features
+- Floating only.
+- Fullscreen toggle.
+- Window centering.
+- Mix of mouse and keyboard workflow.
+- Focus with cursor.
+- Rounded corners (*[through patch](https://github.com/dylanaraps/sowm/pull/58)*)
+- Titlebars (*[through patch](https://github.com/dylanaraps/sowm/pull/57)*)
 
-<a href="https://raw.githubusercontent.com/voidz7/sowm/main/screenshots/todolist.png"><img src="https://raw.githubusercontent.com/voidz7/sowm/main/screenshots/todolist.png" width="43%" align="right"></a>
+<a href="https://user-images.githubusercontent.com/6799467/66687814-8cd9f800-ec73-11e9-97b8-6ae77876bd1b.jpg"><img src="https://user-images.githubusercontent.com/6799467/66687814-8cd9f800-ec73-11e9-97b8-6ae77876bd1b.jpg" width="43%" align="right"></a>
 
-* VIM keybinds to move resize windows
-* Window borders for active and inactive windows 
-* autostart script 
-* bar support (todo)
-* out of the box rice (dracula theme)
-* simple code base so easily hackable/customizable
+- Alt-Tab window focusing.
+- All windows die on exit.
+- No window borders.
+- [No ICCCM](https://web.archive.org/web/20190617214524/https://raw.githubusercontent.com/kfish/xsel/1a1c5edf0dc129055f7764c666da2dd468df6016/rant.txt).
+- No EWMH.
+- etc etc etc
 
 
-#### refer [scrots](https://github.com/voidz7/sowm/blob/main/screenshots/README.md) for more scrots 
+<br>
+
+Patches available here: https://github.com/dylanaraps/sowm/pulls
+
 ## Default Keybindings
 
 **Window Management**
@@ -32,9 +41,6 @@ Official repo : [sowm](https://github.com/dylanaraps/sowm/)
 | `MOD4` + `1-6`             | desktop swap           |
 | `MOD4` + `Shift` +`1-6`    | send window to desktop |
 | `MOD1` + `TAB` (*alt-tab*) | focus cycle            |
-| `MOD4` + `hjkl`            | Move window            |
-| `MOD4` + `Shift` + `hjkl`  | resize window          |
-
 
 **Programs**
 
@@ -42,7 +48,7 @@ Official repo : [sowm](https://github.com/dylanaraps/sowm/)
 | ------------------------ | ---------------- | -------------- |
 | `MOD4` + `Return`        | terminal         | `st`           |
 | `MOD4` + `d`             | dmenu            | `dmenu_run`    |
-| `MOD4` + `p`             | Screenshot       | `scr`          |
+| `MOD4` + `p`             | scrot            | `scr`          |
 | `MOD4` + `w`             | wallpaper cycler | `bud`          |
 | `XF86_AudioLowerVolume`  | volume down      | `amixer`       |
 | `XF86_AudioRaiseVolume`  | volume up        | `amixer`       |
@@ -75,3 +81,18 @@ Comment=This session runs sowm as desktop manager
 Exec=sowm
 Type=Application
 ```
+
+
+## Thanks
+
+- [2bwm](https://github.com/venam/2bwm)
+- [SmallWM](https://github.com/adamnew123456/SmallWM)
+- [berry](https://github.com/JLErvin/berry)
+- [catwm](https://github.com/pyknite/catwm)
+- [dminiwm](https://github.com/moetunes/dminiwm)
+- [dwm](https://dwm.suckless.org)
+- [monsterwm](https://github.com/c00kiemon5ter/monsterwm)
+- [openbox](https://github.com/danakj/openbox)
+- [possum-wm](https://github.com/duckinator/possum-wm)
+- [swm](https://github.com/dcat/swm)
+- [tinywm](http://incise.org/tinywm.html)
