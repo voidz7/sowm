@@ -5,7 +5,7 @@
 
 const int winMove = 45;
 
-const char* menu[]    = {"~/.config/dmenu/dmenu_col",      0};
+const char* menu[]    = {"demon",      0};
 const char* term[]    = {"xst",             0};
 const char* scrot[]   = {"xfce4-screenshooter",            0};
 const char* briup[]   = {"xbacklight", "-inc", "5", 0};
