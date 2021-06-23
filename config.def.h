@@ -2,6 +2,8 @@
 #define CONFIG_H
 
 #define MOD Mod4Mask
+#define BORDER_COLOR "#babbbd"
+#define BORDER_WIDTH 4
 
 const int winMove = 45;
 
