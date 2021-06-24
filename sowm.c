@@ -53,7 +53,17 @@ unsigned long getcolor(const char *col) {
 }
 
 void win_focus(client *c) {
+    if (cur) XSetWindowBorder(d, cur->w, getcolor(BORDER_NORMAL));
     cur = c;
+
+    XSetWindowBorder(d, cur->w, getcolor(BORDER_SELECT));
+
+    if (cur->fs) {
+        XConfigureWindow(d, cur->w, CWBorderWidth, &(XWindowChanges){.border_width = 0});
+    } else {
+        XConfigureWindow(d, cur->w, CWBorderWidth, &(XWindowChanges){.border_width = BORDER_WIDTH});
+    }
+    
     XSetInputFocus(d, cur->w, RevertToParent, CurrentTime);
 }
 
@@ -126,6 +136,7 @@ void win_add(Window w) {
     }
 
     ws_save(ws);
+    win_focus(c);
 }
 
 void win_del(Window w) {
@@ -160,9 +171,12 @@ void win_fs(const Arg arg) {
     if ((cur->f = cur->f ? 0 : 1)) {
         win_size(cur->w, &cur->wx, &cur->wy, &cur->ww, &cur->wh);
         XMoveResizeWindow(d, cur->w, 0, 0, sw, sh);
-
+        cur->fs = 1;
+        win_focus(cur);
     } else {
         XMoveResizeWindow(d, cur->w, cur->wx, cur->wy, cur->ww, cur->wh);
+        cur->fs = 0;
+        win_focus(cur);
     }
 }
 
@@ -227,6 +241,7 @@ void configure_request(XEvent *e) {
         .sibling    = ev->above,
         .stack_mode = ev->detail
     });
+
 }
 
 void map_request(XEvent *e) {
@@ -236,9 +251,6 @@ void map_request(XEvent *e) {
     win_size(w, &wx, &wy, &ww, &wh);
     win_add(w);
     cur = list->prev;
-    XSetWindowBorder(d, w, getcolor(BORDER_COLOR));
-    XConfigureWindow(d, w, CWBorderWidth, &(XWindowChanges){.border_width = BORDER_WIDTH});
-    
 
     if (wx + wy == 0) win_center((Arg){0});
 
@@ -304,9 +316,10 @@ int main(void) {
     signal(SIGCHLD, SIG_IGN);
     XSetErrorHandler(xerror);
 
+    int s = DefaultScreen(d);
     root  = RootWindow(d, s);
-    sw    = XDisplayWidth(d, s) - (2*BORDER_WIDTH);
-    sh    = XDisplayHeight(d, s) - (2*BORDER_WIDTH);
+    sw    = XDisplayWidth(d, s); //- (2*BORDER_WIDTH);
+    sh    = XDisplayHeight(d, s); //- (2*BORDER_WIDTH);
 
     XSelectInput(d,  root, SubstructureRedirectMask);
     XDefineCursor(d, root, XCreateFontCursor(d, 68));

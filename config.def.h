@@ -2,10 +2,9 @@
 #define CONFIG_H
 
 #define MOD Mod4Mask
-#define BORDER_COLOR "#babbbd"
-#define BORDER_WIDTH 4
-
-const int winMove = 45;
+#define BORDER_SELECT   "#babbbd"
+#define BORDER_NORMAL   "#babbbd"
+#define BORDER_WIDTH    4
 
 const char* menu[]    = {"demon",      0};
 const char* term[]    = {"xst",             0};
@@ -17,27 +16,28 @@ const char* volup[]   = {"pamixer", "-i", "5",      0};
 const char* volmute[] = {"pamixer", "-t",           0};
 const char* pkill[]   = {"pkill", "sowm", 0};
 
-
 static struct key keys[] = {
     {MOD,      XK_q,   win_kill,   {0}},
     {MOD,      XK_c,   win_center, {0}},
     {MOD,      XK_f,   win_fs,     {0}},
 
-    {MOD,           XK_k,  win_move,  {.com = (const char*[]){"move",   "n"}, .i = winMove}},
-    {MOD,           XK_j,  win_move,  {.com = (const char*[]){"move",   "s"}, .i = winMove}},
-    {MOD,           XK_l,  win_move,  {.com = (const char*[]){"move",   "e"}, .i = winMove}},
-    {MOD,           XK_h,  win_move,  {.com = (const char*[]){"move",   "w"}, .i = winMove}},
+    {MOD|Mod1Mask, XK_q,      run, {.com = pkill}},
 
-    {MOD|ShiftMask, XK_k,  win_move,  {.com = (const char*[]){"resize", "n"}, .i = winMove}},
-    {MOD|ShiftMask, XK_j,  win_move,  {.com = (const char*[]){"resize", "s"}, .i = winMove}},
-    {MOD|ShiftMask, XK_l,  win_move,  {.com = (const char*[]){"resize", "e"}, .i = winMove}},
-    {MOD|ShiftMask, XK_h,  win_move,  {.com = (const char*[]){"resize", "w"}, .i = winMove}},
+    {MOD,           XK_k,  win_move,  {.com = (const char*[]){"move",   "n"}, .i = 50}},
+    {MOD,           XK_j,  win_move,  {.com = (const char*[]){"move",   "s"}, .i = 50}},
+    {MOD,           XK_l,  win_move,  {.com = (const char*[]){"move",   "e"}, .i = 50}},
+    {MOD,           XK_h,  win_move,  {.com = (const char*[]){"move",   "w"}, .i = 50}},
+
+    {MOD|ShiftMask, XK_k,  win_move,  {.com = (const char*[]){"resize", "n"}, .i = 50}},
+    {MOD|ShiftMask, XK_j,  win_move,  {.com = (const char*[]){"resize", "s"}, .i = 50}},
+    {MOD|ShiftMask, XK_l,  win_move,  {.com = (const char*[]){"resize", "e"}, .i = 50}},
+    {MOD|ShiftMask, XK_h,  win_move,  {.com = (const char*[]){"resize", "w"}, .i = 50}},
+
 
     {Mod1Mask,           XK_Tab, win_next,   {0}},
     {Mod1Mask|ShiftMask, XK_Tab, win_prev,   {0}},
 
     {MOD, XK_d,      run, {.com = menu}},
-    {MOD|Mod1Mask, XK_q,      run, {.com = pkill}},
     {MOD, XK_p,      run, {.com = scrot}},
     {MOD, XK_Return, run, {.com = term}},
 
