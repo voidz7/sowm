@@ -10,7 +10,7 @@ config.h:
 	cp config.def.h config.h
 
 sowm: sowm.c sowm.h config.h Makefile
-	$(CC) -O3 $(CFLAGS) -o $@ $< -lX11 $(LDFLAGS)
+	$(CC) -O3 $(CFLAGS) -o $@ $< -lX11 -lXext $(LDFLAGS)
 
 install: all
 	install -Dm755 sowm $(DESTDIR)$(BINDIR)/sowm
@@ -20,6 +20,5 @@ uninstall:
 
 clean:
 	rm -f sowm *.o
-
 
 .PHONY: all install uninstall clean
