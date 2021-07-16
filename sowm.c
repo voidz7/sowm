@@ -4,18 +4,18 @@
 #include <X11/XF86keysym.h>
 #include <X11/keysym.h>
 #include <X11/XKBlib.h>
-#include <X11/extensions/shape.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
-#include <string.h>
+#include <stdbool.h>
 
 #include "sowm.h"
 
-static client       *list = {0}, *ws_list[10] = {0}, *cur;
+static client       *list = {0}, *ws_list[NUM_WS] = {0}, *cur;
 static int          ws = 1, sw, sh, wx, wy, numlock = 0;
 static unsigned int ww, wh;
 
+static int          s;
 static Display      *d;
 static XButtonEvent mouse;
 static Window       root;
@@ -26,18 +26,13 @@ static void (*events[LASTEvent])(XEvent *e) = {
     [ConfigureRequest] = configure_request,
     [KeyPress]         = key_press,
     [MapRequest]       = map_request,
+    [MappingNotify]    = mapping_notify,
     [DestroyNotify]    = notify_destroy,
     [EnterNotify]      = notify_enter,
     [MotionNotify]     = notify_motion
 };
 
 #include "config.h"
- 
-void runAutoStart(void) {
-    system("cd ~/.sowm; ./autostart_blocking.sh");
-    system("cd ~/.sowm; ./autostart.sh &");
-}
-
 
 void win_move(const Arg arg) {
     int  r = arg.com[0][0] == 'r';
@@ -50,8 +45,12 @@ void win_move(const Arg arg) {
         wy + (r ? 0 : m == 'n' ? -arg.i : m == 's' ?  arg.i : 0),
         MAX(10, ww + (r ? m == 'e' ?  arg.i : m == 'w' ? -arg.i : 0 : 0)),
         MAX(10, wh + (r ? m == 'n' ? -arg.i : m == 's' ?  arg.i : 0 : 0)));
+}
 
-    win_round_corners(cur->w, ROUND_CORNERS);
+unsigned long getcolor(const char *col) {
+    Colormap m = DefaultColormap(d, s);
+    XColor c;
+    return (!XAllocNamedColor(d, m, col, &c, &c))?0:c.pixel;
 }
 
 void win_focus(client *c) {
@@ -67,6 +66,7 @@ void notify_destroy(XEvent *e) {
 
 void notify_enter(XEvent *e) {
     while(XCheckTypedEvent(d, EnterNotify, e));
+    while(XCheckTypedWindowEvent(d, mouse.subwindow, MotionNotify, e));
 
     for win if (c->w == e->xcrossing.window) win_focus(c);
 }
@@ -84,39 +84,6 @@ void notify_motion(XEvent *e) {
         wy + (mouse.button == 1 ? yd : 0),
         MAX(1, ww + (mouse.button == 3 ? xd : 0)),
         MAX(1, wh + (mouse.button == 3 ? yd : 0)));
-}
-
-void win_round_corners(Window w, int rad) {
-    unsigned int ww, wh, dia = 2 * rad;
-
-    win_size(w, &(int){1}, &(int){1}, &ww, &wh);
-
-    if (ww < dia || wh < dia) return;
-
-    Pixmap mask = XCreatePixmap(d, w, ww, wh, 1);
-
-    if (!mask) return;
-
-    XGCValues xgcv;
-    GC shape_gc = XCreateGC(d, mask, 0, &xgcv);
-
-    if (!shape_gc) {
-        XFreePixmap(d, mask);
-        return;
-    }
-
-    XSetForeground(d, shape_gc, 0);
-    XFillRectangle(d, mask, shape_gc, 0, 0, ww, wh);
-    XSetForeground(d, shape_gc, 1);
-    XFillArc(d, mask, shape_gc, 0, 0, dia, dia, 0, 23040);
-    XFillArc(d, mask, shape_gc, ww-dia-1, 0, dia, dia, 0, 23040);
-    XFillArc(d, mask, shape_gc, 0, wh-dia-1, dia, dia, 0, 23040);
-    XFillArc(d, mask, shape_gc, ww-dia-1, wh-dia-1, dia, dia, 0, 23040);
-    XFillRectangle(d, mask, shape_gc, rad, 0, ww-dia, wh);
-    XFillRectangle(d, mask, shape_gc, 0, rad, ww, wh-dia);
-    XShapeCombineMask(d, w, ShapeBounding, 0, 0, mask, ShapeSet);
-    XFreePixmap(d, mask);
-    XFreeGC(d, shape_gc);
 }
 
 void key_press(XEvent *e) {
@@ -194,10 +161,9 @@ void win_fs(const Arg arg) {
     if ((cur->f = cur->f ? 0 : 1)) {
         win_size(cur->w, &cur->wx, &cur->wy, &cur->ww, &cur->wh);
         XMoveResizeWindow(d, cur->w, 0, 0, sw, sh);
-        win_round_corners(cur->w, 0);
+
     } else {
         XMoveResizeWindow(d, cur->w, cur->wx, cur->wy, cur->ww, cur->wh);
-        win_round_corners(cur->w, ROUND_CORNERS);
     }
 }
 
@@ -264,19 +230,45 @@ void configure_request(XEvent *e) {
     });
 }
 
+bool exists_win(Window w) {
+    int tmp = ws;
+    for (int i = 0; i < NUM_WS; ++i) {
+        if (i == tmp) continue;
+        ws_sel(i);
+        for win if (c->w == w) {
+            ws_sel(tmp);
+            return true;
+        }
+    }
+    ws_sel(tmp);
+    return false;
+}
+
 void map_request(XEvent *e) {
     Window w = e->xmaprequest.window;
+    if (exists_win(w)) return;
 
     XSelectInput(d, w, StructureNotifyMask|EnterWindowMask);
     win_size(w, &wx, &wy, &ww, &wh);
     win_add(w);
     cur = list->prev;
+    XSetWindowBorder(d, w, getcolor(BORDER_COLOR));
+    XConfigureWindow(d, w, CWBorderWidth, &(XWindowChanges){.border_width = BORDER_WIDTH});
+    
 
     if (wx + wy == 0) win_center((Arg){0});
 
-    win_round_corners(w, ROUND_CORNERS);
     XMapWindow(d, w);
     win_focus(list->prev);
+}
+
+void mapping_notify(XEvent *e) {
+    XMappingEvent *ev = &e->xmapping;
+
+    if (ev->request == MappingKeyboard || ev->request == MappingModifier) {
+        XRefreshKeyboardMapping(ev);
+        input_grab(root);
+    }
 }
 
 void run(const Arg arg) {
@@ -285,6 +277,11 @@ void run(const Arg arg) {
 
     setsid();
     execvp((char*)arg.com[0], (char**)arg.com);
+}
+
+void runAutoStart(void) {
+    system("cd ~/.sowm; ./autostart_blocking.sh");
+    system("cd ~/.sowm; ./autostart.sh &");
 }
 
 void input_grab(Window root) {
@@ -297,6 +294,8 @@ void input_grab(Window root) {
             if (modmap->modifiermap[i * modmap->max_keypermod + k]
                 == XKeysymToKeycode(d, 0xff7f))
                 numlock = (1 << i);
+
+    XUngrabKey(d, AnyKey, AnyModifier, root);
 
     for (i = 0; i < sizeof(keys)/sizeof(*keys); i++)
         if ((code = XKeysymToKeycode(d, keys[i].keysym)))
@@ -321,10 +320,9 @@ int main(void) {
     signal(SIGCHLD, SIG_IGN);
     XSetErrorHandler(xerror);
 
-    int s = DefaultScreen(d);
     root  = RootWindow(d, s);
-    sw    = XDisplayWidth(d, s);
-    sh    = XDisplayHeight(d, s);
+    sw    = XDisplayWidth(d, s) - (2*BORDER_WIDTH);
+    sh    = XDisplayHeight(d, s) - (2*BORDER_WIDTH);
 
     XSelectInput(d,  root, SubstructureRedirectMask);
     XDefineCursor(d, root, XCreateFontCursor(d, 68));
