@@ -32,6 +32,7 @@ typedef struct client {
     struct client *next, *prev;
     int f, wx, wy;
     unsigned int ww, wh;
+    unsigned char fs;
     Window w;
 } client;
 
@@ -56,9 +57,9 @@ void win_focus(client *c);
 void win_kill(const Arg arg);
 void win_prev(const Arg arg);
 void win_next(const Arg arg);
+void win_move(const Arg arg);
 void win_to_ws(const Arg arg);
 void ws_go(const Arg arg);
 bool exists_win(Window w);
-void win_move(const Arg arg);
 
 static int xerror() { return 0; }

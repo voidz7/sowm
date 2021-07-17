@@ -2,8 +2,10 @@
 #define CONFIG_H
 
 #define MOD Mod4Mask
-#define BORDER_COLOR "#ffffff"
-#define BORDER_WIDTH 3
+#define BORDER_SELECT   "#ffffff"
+#define BORDER_NORMAL   "#79695a"
+#define BORDER_NONE     "#000000"
+#define BORDER_WIDTH    0
 
 const char* menu[]    = {"demon",                   0};
 const char* term[]    = {"xterm",                   0};
